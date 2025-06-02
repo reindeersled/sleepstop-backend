@@ -1,0 +1,22 @@
+{
+    "name": "sleepstop-backend",
+    "version": "1.0.0",
+    "description": "Backend for SleepStop mobile app",
+    "main": "app.js",
+    "scripts": {
+      "start": "node app.js",
+      "dev": "nodemon app.js"
+    },
+    "dependencies": {
+      "bcryptjs": "^2.4.3",
+      "cors": "^2.8.5",
+      "dotenv": "^16.0.3",
+      "express": "^4.18.2",
+      "jsonwebtoken": "^9.0.0",
+      "pg": "^8.11.0",
+      "sequelize": "^6.32.1"
+    },
+    "devDependencies": {
+      "nodemon": "^2.0.22"
+    }
+  }
