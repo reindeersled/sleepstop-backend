@@ -1,6 +1,9 @@
 const { Sequelize } = require('sequelize');
+// FIX THIS LINE: Correct the path to your config.js file
+const config = require('../config/config'); // <-- CHANGE THIS LINE!
 
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
+// Initialize Sequelize using the DATABASE_URL from your config file
+const sequelize = new Sequelize(config.DATABASE_URL, {
   dialect: 'postgres',
   protocol: 'postgres',
   dialectOptions: {
@@ -12,9 +15,15 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   logging: false
 });
 
+// Test the database connection
+sequelize.authenticate()
+  .then(() => console.log('Database connection has been established successfully.'))
+  .catch(err => console.error('Unable to connect to the database:', err));
+
+
 const models = {
-  User: require('./User')(sequelize, Sequelize), // This *must* return a model
-  Alarm: require('./Alarm')(sequelize, Sequelize) // This *must* return a model
+  User: require('./User')(sequelize, Sequelize),
+  Alarm: require('./Alarm')(sequelize, Sequelize)
 };
 
 Object.keys(models).forEach(modelName => {
