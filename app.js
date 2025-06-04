@@ -18,7 +18,7 @@ app.use('/api/alarms', alarmRoutes);
 // Database connection and server start
 // CHANGED: db.sequelize.sync().then(() => { ... });
 sequelize.sync({ alter: true }).then(() => { // <-- Use { alter: true } for development/migrations
-  const PORT = process.env.PORT || 5000;
+  const PORT = process.env.PORT || 8080;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
