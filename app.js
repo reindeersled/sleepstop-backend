@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
-const db = require('./models/db');
+// REMOVED: const db = require('./models/db'); // No longer needed
+const { sequelize } = require('./models'); // <-- NEW: Import sequelize from models/index.js
 const authRoutes = require('./routes/auth');
 const alarmRoutes = require('./routes/alarms');
 
@@ -15,9 +16,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/alarms', alarmRoutes);
 
 // Database connection and server start
-db.sequelize.sync().then(() => {
+// CHANGED: db.sequelize.sync().then(() => { ... });
+sequelize.sync({ alter: true }).then(() => { // <-- Use { alter: true } for development/migrations
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+}).catch(err => {
+  console.error('Failed to sync DB:', err);
+  process.exit(1); // Exit if DB sync fails
 });
