@@ -5,29 +5,33 @@ const router = express.Router();
 require('dotenv').config();
 
 // Register
+// routes/auth.js
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    
-    // Check if user exists
+
+    // Check if user exists (username and email checks)
     const existingUser = await User.findOne({ where: { username } });
     if (existingUser) {
       return res.status(400).json({ message: 'Username already exists' });
     }
-    
+
     const existingEmail = await User.findOne({ where: { email } });
     if (existingEmail) {
       return res.status(400).json({ message: 'Email already exists' });
     }
-    
+
     // Create new user
-    const user = await User.create({ username, email, password });
-    
+    const user = await User.create({ username, email, password }); // User model hook hashes password
+
     // Generate token
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
-    
+
     res.status(201).json({ token, userId: user.id, username: user.username });
   } catch (error) {
+    // --- THIS IS THE CRITICAL LINE TO ENSURE IS PRESENT ---
+    console.error('Detailed registration error:', error);
+    // --------------------------------------------------------
     res.status(500).json({ message: 'Error registering user', error: error.message });
   }
 });
