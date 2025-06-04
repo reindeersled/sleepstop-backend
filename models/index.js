@@ -1,47 +1,41 @@
-// sleepstop-backend/models/index.js
+// sleepstop-backend/models/index.js (UPDATED)
 
-const { sequelize, Sequelize } = require('./db'); // Import sequelize and Sequelize from db.js
+const { Sequelize } = require('sequelize');
 
-// Import the already defined models
-const User = require('./User');
-const Alarm = require('./Alarm');
+// Use DATABASE_URL provided by Heroku
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres', // Heroku Postgres is always 'postgres'
+  protocol: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // This is important for Heroku
+    }
+  },
+  logging: false // Optional: set to true to see SQL queries in logs
+});
 
-// Define associations:
-// This is crucial for linking your models.
-// It's best practice to define associations in a central place like index.js
-// after all models have been loaded.
-Object.keys(Alarm).forEach(key => { // Or use Alarm.associate if it's a static method
-  if (typeof Alarm[key].associate === 'function') {
-    Alarm[key].associate(module.exports); // Pass the exported models object
+const models = {
+  User: require('./User')(sequelize, Sequelize),
+  Alarm: require('./Alarm')(sequelize, Sequelize)
+};
+
+// Associate models if association exists
+// This loop is correct for your 'models' object
+Object.keys(models).forEach(modelName => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models); // Pass the entire 'models' object for associations
   }
 });
 
-Object.keys(User).forEach(key => { // Or use User.associate if it's a static method
-  if (typeof User[key].associate === 'function') {
-    User[key].associate(module.exports); // Pass the exported models object
-  }
-});
+// Optional: Sync your models (create tables)
+// sequelize.sync()
+//   .then(() => console.log('Database synced!'))
+//   .catch(err => console.error('Database sync error:', err));
 
 
-// More direct way to call associate if defined as a static method on the model
-if (typeof Alarm.associate === 'function') {
-  Alarm.associate(module.exports); // Pass the exports object to Alarm.associate
-}
-if (typeof User.associate === 'function') {
-  User.associate(module.exports); // Pass the exports object to User.associate
-}
-
-// Ensure all models are synced (creates tables if they don't exist)
-// You might want to move this to app.js or a separate sync script
-// to avoid syncing on every app restart in production.
-// For development, it's fine here.
-// sequelize.sync(); // or sequelize.sync({ force: true }) for development to recreate tables
-
-// Export all models and the sequelize instance
 module.exports = {
+  ...models,
   sequelize,
-  Sequelize, // Export Sequelize constructor if needed elsewhere
-  User,
-  Alarm
-  // Add any other models here as you create them
+  Sequelize
 };
