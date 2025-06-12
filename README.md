@@ -15,6 +15,9 @@ sleepstop-backend/
 │   └── alarms.js
 ├── middleware/
 │   └── auth.js
+├── migrations/
+│   └── 20240328000000-add-name-fields.js
 ├── config/
-│   └── config.js
+│   ├── config.js
+│   └── config.json
 └── .sequelizerc.js
