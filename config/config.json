@@ -1,0 +1,20 @@
+{
+    "development": {
+      "url": "postgres://u2j08qm4fedvgd:p6951753864ec64b95aefd5537225689d88aed859c7ae294c190389e7ec3a72d6@c7itisjfjj8ril.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d2dgsrv1fppjan",
+      "dialect": "postgres",
+      "dialectOptions": {
+        "ssl": {
+          "require": true,
+          "rejectUnauthorized": false
+        }
+      }
+    },
+    "test": {
+      "url": "postgres://u2j08qm4fedvgd:p6951753864ec64b95aefd5537225689d88aed859c7ae294c190389e7ec3a72d6@c7itisjfjj8ril.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d2dgsrv1fppjan",
+      "dialect": "postgres"
+    },
+    "production": {
+      "url": "postgres://u2j08qm4fedvgd:p6951753864ec64b95aefd5537225689d88aed859c7ae294c190389e7ec3a72d6@c7itisjfjj8ril.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d2dgsrv1fppjan",
+      "dialect": "postgres"
+    }
+  }

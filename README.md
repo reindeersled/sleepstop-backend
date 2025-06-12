@@ -15,5 +15,6 @@ sleepstop-backend/
 │   └── alarms.js
 ├── middleware/
 │   └── auth.js
-└── config/
-    └── config.js
+├── config/
+│   └── config.js
+└── .sequelizerc.js
