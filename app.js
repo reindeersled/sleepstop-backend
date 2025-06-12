@@ -6,6 +6,11 @@ const authRoutes = require('./routes/auth');
 const alarmRoutes = require('./routes/alarms');
 
 const app = express();
+require('dotenv').config();
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Middleware
 app.use(cors());

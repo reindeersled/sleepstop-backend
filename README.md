@@ -9,7 +9,7 @@ sleepstop-backend/
 ├── models/
 │   ├── User.js
 │   ├── Alarm.js
-│   └── db.js
+│   └── index.js
 ├── routes/
 │   ├── auth.js
 │   └── alarms.js
